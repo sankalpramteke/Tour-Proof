@@ -4,8 +4,8 @@ import { useParams, useNavigate } from "react-router-dom";
 import BookingForm from "../components/booking/BookingForm";
 import PaymentForm from "../components/booking/PaymentForm";
 import LoadingSpinner from "../components/common/LoadingSpinner";
-import { getListingById } from "../services/listings.service";
-import { createBooking } from "../services/bookings.service";
+import { listingsService } from "../services/listings.service";
+import { bookingsService } from "../services/bookings.service";
 import { useAuth } from "../hooks/useAuth";
 
 const BookingPage = () => {
@@ -34,7 +34,7 @@ const BookingPage = () => {
     const fetchListingData = async () => {
       try {
         setLoading(true);
-        const data = await getListingById(listingId);
+        const { data } = await listingsService.getListingById(listingId);
         setListing(data);
         setLoading(false);
       } catch (err) {
@@ -96,7 +96,7 @@ const BookingPage = () => {
         // Add other payment details as needed
       };
       
-      const response = await createBooking(bookingData);
+      const { data: response } = await bookingsService.createBooking(bookingData);
       
       // Navigate to confirmation page
       navigate(`/dashboard?booking=${response.id}`);

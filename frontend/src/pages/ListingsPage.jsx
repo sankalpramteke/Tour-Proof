@@ -22,7 +22,7 @@ const ListingsPage = () => {
         setLoading(true);
         // Apply filters to the API call
         const response = await listingsService.getAllListings(filters);
-        setListings(response);
+        setListings(response.data || []);
         setLoading(false);
       } catch (error) {
         console.error("Error fetching listings:", error);

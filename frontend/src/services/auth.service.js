@@ -1,35 +1,67 @@
-import apiClient from './api';
+// Mock user data
+const mockUser = {
+  id: 1,
+  email: 'user@example.com',
+  name: 'John Doe',
+  walletAddress: '0x123...abc',
+  isEmailVerified: true
+};
+
+// Mock token
+const mockToken = 'mock-jwt-token';
 
 export const authService = {
   login: async (email, password) => {
-    return await apiClient.post('/auth/login', { email, password });
+    // Simple validation
+    if (email && password) {
+      return Promise.resolve({ data: { user: mockUser, token: mockToken } });
+    }
+    throw new Error('Invalid credentials');
   },
   
   signup: async (userData) => {
-    return await apiClient.post('/auth/signup', userData);
+    if (userData.email && userData.password) {
+      const newUser = { ...mockUser, ...userData };
+      return Promise.resolve({ data: { user: newUser, token: mockToken } });
+    }
+    throw new Error('Invalid user data');
   },
   
   getCurrentUser: async () => {
-    return await apiClient.get('/user/profile');
+    return Promise.resolve({ data: mockUser });
   },
   
   updateProfile: async (userData) => {
-    return await apiClient.put('/user/profile', userData);
+    const updatedUser = { ...mockUser, ...userData };
+    return Promise.resolve({ data: updatedUser });
   },
   
   connectWallet: async (walletAddress, signature) => {
-    return await apiClient.post('/auth/connect-wallet', { walletAddress, signature });
+    if (walletAddress && signature) {
+      const updatedUser = { ...mockUser, walletAddress };
+      return Promise.resolve({ data: updatedUser });
+    }
+    throw new Error('Invalid wallet connection');
   },
   
   forgotPassword: async (email) => {
-    return await apiClient.post('/auth/forgot-password', { email });
+    if (email) {
+      return Promise.resolve({ data: { message: 'Password reset email sent' } });
+    }
+    throw new Error('Email is required');
   },
   
   resetPassword: async (token, newPassword) => {
-    return await apiClient.post('/auth/reset-password', { token, newPassword });
+    if (token && newPassword) {
+      return Promise.resolve({ data: { message: 'Password reset successful' } });
+    }
+    throw new Error('Invalid password reset');
   },
   
   verifyEmail: async (token) => {
-    return await apiClient.get(`/auth/verify-email/${token}`);
+    if (token) {
+      return Promise.resolve({ data: { message: 'Email verified successfully' } });
+    }
+    throw new Error('Invalid verification token');
   }
 };

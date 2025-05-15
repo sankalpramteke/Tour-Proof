@@ -1,24 +1,28 @@
-import { Outlet } from 'react-router-dom';
-import Header from './components/common/Header';
-import Footer from './components/common/Footer';
-import { AuthProvider } from './contexts/AuthContext';
-import { WalletProvider } from './contexts/WalletContext';
-import './assets/styles/main.scss';
+import React from 'react'
+import Routes from './routes'
+import Navbar from './components/common/Navbar'
+import { WalletProvider } from './contexts/WalletContext'
+
+// Import Bootstrap CSS and JS
+import 'bootstrap/dist/css/bootstrap.min.css'
+import 'bootstrap/dist/js/bootstrap.bundle.min.js'
+import 'bootstrap-icons/font/bootstrap-icons.css'
+
+// Import custom styles
+import './App.css'
+import './assets/styles/main.scss'
 
 function App() {
   return (
-    <AuthProvider>
-      <WalletProvider>
-        <div className="app-container">
-          <Header />
-          <main className="main-content">
-            <Outlet />
-          </main>
-          <Footer />
-        </div>
-      </WalletProvider>
-    </AuthProvider>
-  );
+    <WalletProvider>
+      <div className="app-container">
+        <Navbar />
+        <main className="main-content">
+          <Routes />
+        </main>
+      </div>
+    </WalletProvider>
+  )
 }
 
 export default App;

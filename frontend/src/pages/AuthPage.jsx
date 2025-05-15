@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
+import { Container, Row, Col, Card, Nav, Alert } from 'react-bootstrap';
 import { useAuth } from '../hooks/useAuth';
 import { useWallet } from '../hooks/useWallet';
 import LoginForm from '../components/auth/LoginForm';
@@ -50,46 +51,65 @@ const AuthPage = () => {
   };
   
   return (
-    <div className="auth-page">
-      <div className="auth-container">
-        <div className="auth-tabs">
-          <button 
-            className={`auth-tab ${activeTab === 'login' ? 'active' : ''}`}
-            onClick={() => handleTabChange('login')}
-          >
-            Login
-          </button>
-          <button 
-            className={`auth-tab ${activeTab === 'signup' ? 'active' : ''}`}
-            onClick={() => handleTabChange('signup')}
-          >
-            Sign Up
-          </button>
-        </div>
-        
-        {error && <div className="auth-error">{error}</div>}
-        
-        <div className="auth-form-container">
-          {activeTab === 'login' ? (
-            <LoginForm onSubmit={handleLogin} />
-          ) : (
-            <SignupForm onSubmit={handleSignup} />
-          )}
-        </div>
-        
-        <div className="auth-divider">
-          <span>OR</span>
-        </div>
-        
-        <div className="wallet-auth">
-          <MetaMaskConnect 
-            onConnect={handleWalletConnect} 
-            isConnected={wallet.connected}
-            walletAddress={wallet.address}
-          />
-        </div>
-      </div>
-    </div>
+    <Container className="py-5">
+      <Row className="justify-content-center">
+        <Col md={8} lg={6}>
+          <Card className="shadow-sm">
+            <Card.Body className="p-4">
+              <Nav variant="tabs" className="mb-4">
+                <Nav.Item>
+                  <Nav.Link 
+                    active={activeTab === 'login'}
+                    onClick={() => handleTabChange('login')}
+                  >
+                    Login
+                  </Nav.Link>
+                </Nav.Item>
+                <Nav.Item>
+                  <Nav.Link 
+                    active={activeTab === 'signup'}
+                    onClick={() => handleTabChange('signup')}
+                  >
+                    Sign Up
+                  </Nav.Link>
+                </Nav.Item>
+              </Nav>
+              
+              {error && (
+                <Alert variant="danger" className="mt-3">
+                  {error}
+                </Alert>
+              )}
+              
+              <div className="mt-4">
+                {activeTab === 'login' ? (
+                  <LoginForm onSubmit={handleLogin} />
+                ) : (
+                  <SignupForm onSubmit={handleSignup} />
+                )}
+              </div>
+              
+              <div className="text-center my-4">
+                <div className="position-relative">
+                  <hr />
+                  <div className="position-absolute top-50 start-50 translate-middle px-3 bg-white">
+                    <span className="text-muted">OR</span>
+                  </div>
+                </div>
+              </div>
+              
+              <div className="wallet-auth">
+                <MetaMaskConnect 
+                  onConnect={handleWalletConnect} 
+                  isConnected={wallet.connected}
+                  walletAddress={wallet.address}
+                />
+              </div>
+            </Card.Body>
+          </Card>
+        </Col>
+      </Row>
+    </Container>
   );
 };
 

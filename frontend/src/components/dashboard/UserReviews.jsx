@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
+import { Card, Alert, Button, Badge, Row, Col } from 'react-bootstrap';
 import { reviewsService } from '../../services/reviews.service';
 import LoadingSpinner from '../common/LoadingSpinner';
 import VerifiedBadge from '../reviews/VerifiedBadge';
@@ -41,7 +42,7 @@ const UserReviews = ({ userId }) => {
     const stars = [];
     for (let i = 1; i <= 5; i++) {
       stars.push(
-        <span key={i} className={`text-lg ${i <= rating ? 'text-yellow-500' : 'text-gray-300'}`}>
+        <span key={i} className={`fs-5 ${i <= rating ? 'text-warning' : 'text-muted'}`}>
           ★
         </span>
       );
@@ -55,90 +56,92 @@ const UserReviews = ({ userId }) => {
 
   if (error) {
     return (
-      <div className="p-4 bg-red-50 text-red-700 rounded-md">
+      <Alert variant="danger">
         {error}
-      </div>
+      </Alert>
     );
   }
 
   return (
-    <div className="bg-white rounded-lg">
-      <div className="mb-6">
-        <h2 className="text-2xl font-bold">My Reviews</h2>
+    <div>
+      <div className="mb-4">
+        <h3>My Reviews</h3>
       </div>
 
       {reviews.length === 0 ? (
-        <div className="py-8 text-center">
-          <p className="text-gray-500">You haven't written any reviews yet.</p>
-          <div className="mt-4">
+        <div className="text-center py-5">
+          <p className="text-muted">You haven't written any reviews yet.</p>
+          <div className="mt-3">
             <Link 
               to="/listings" 
-              className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700"
+              className="btn btn-primary"
             >
               Explore listings
             </Link>
           </div>
         </div>
       ) : (
-        <div className="space-y-6">
+        <div className="d-grid gap-4">
           {reviews.map(review => (
-            <div key={review.review_id} className="border rounded-lg p-4 hover:shadow-md transition-shadow">
-              <div className="flex justify-between items-start">
-                <div>
-                  <Link 
-                    to={`/listings/${review.listing_id}`}
-                    className="font-bold text-lg hover:text-blue-600"
-                  >
-                    {review.listing?.title || 'Listing'}
-                  </Link>
-                  <div className="flex items-center mt-1">
-                    <div className="flex mr-2">
-                      {renderStars(review.rating)}
+            <Card key={review.review_id} className="shadow-sm">
+              <Card.Body>
+                <div className="d-flex justify-content-between align-items-start">
+                  <div>
+                    <Link 
+                      to={`/listings/${review.listing_id}`}
+                      className="text-decoration-none"
+                    >
+                      <h5 className="mb-2">{review.listing?.title || 'Listing'}</h5>
+                    </Link>
+                    <div className="d-flex align-items-center gap-2">
+                      <div className="d-flex">
+                        {renderStars(review.rating)}
+                      </div>
+                      <small className="text-muted">
+                        {formatDate(review.created_at)}
+                      </small>
+                      {review.verification_status === 'verified' && (
+                        <span>
+                          <VerifiedBadge />
+                        </span>
+                      )}
                     </div>
-                    <span className="text-gray-500 text-sm">
-                      {formatDate(review.created_at)}
-                    </span>
-                    {review.verification_status === 'verified' && (
-                      <span className="ml-2">
-                        <VerifiedBadge />
-                      </span>
-                    )}
                   </div>
+                  
+                  {review.blockchain_hash && (
+                    <Button 
+                      variant="link"
+                      size="sm"
+                      onClick={() => window.open(`https://etherscan.io/tx/${review.blockchain_hash}`, '_blank')}
+                    >
+                      View on blockchain
+                    </Button>
+                  )}
                 </div>
                 
-                {review.blockchain_hash && (
-                  <button 
-                    onClick={() => window.open(`https://etherscan.io/tx/${review.blockchain_hash}`, '_blank')}
-                    className="text-sm text-blue-600 hover:underline"
-                  >
-                    View on blockchain
-                  </button>
+                <p className="mt-3 text-muted">{review.content}</p>
+
+                {review.images && review.images.length > 0 && (
+                  <div className="mt-3 d-flex gap-2 overflow-auto">
+                    {review.images.map((image, index) => (
+                      <img 
+                        key={index} 
+                        src={image} 
+                        alt={`Review ${index + 1}`} 
+                        style={{ height: '80px', width: '80px', objectFit: 'cover' }}
+                        className="rounded"
+                      />
+                    ))}
+                  </div>
                 )}
-              </div>
-              
-              <div className="mt-3">
-                <p className="text-gray-700">{review.content}</p>
-              </div>
 
-              {review.images && review.images.length > 0 && (
-                <div className="mt-4 flex space-x-2 overflow-x-auto">
-                  {review.images.map((image, index) => (
-                    <img 
-                      key={index} 
-                      src={image} 
-                      alt={`Review ${index + 1}`} 
-                      className="h-20 w-20 object-cover rounded-md"
-                    />
-                  ))}
-                </div>
-              )}
-
-              {review.verification_status === 'verified' && (
-                <div className="mt-3 text-sm text-green-600">
-                  ✓ This review was verified and earned you tokens
-                </div>
-              )}
-            </div>
+                {review.verification_status === 'verified' && (
+                  <div className="mt-3 small text-success">
+                    ✓ This review was verified and earned you tokens
+                  </div>
+                )}
+              </Card.Body>
+            </Card>
           ))}
         </div>
       )}

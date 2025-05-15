@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
+import { Nav, Button, Card, Badge, Row, Col, Alert } from 'react-bootstrap';
 import { bookingsService } from '../../services/bookings.service';
 import LoadingSpinner from '../common/LoadingSpinner';
 
@@ -8,7 +9,7 @@ const UserBookings = ({ userId }) => {
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
   const [activeTab, setActiveTab] = useState('upcoming');
-  
+
   useEffect(() => {
     const fetchBookings = async () => {
       setIsLoading(true);
@@ -31,7 +32,7 @@ const UserBookings = ({ userId }) => {
 
   const getFilteredBookings = () => {
     const now = new Date();
-    
+
     if (activeTab === 'upcoming') {
       return bookings.filter(booking => new Date(booking.start_date) >= now && booking.status !== 'canceled');
     } else if (activeTab === 'past') {
@@ -50,16 +51,16 @@ const UserBookings = ({ userId }) => {
     });
   };
 
-  const getStatusClass = (status) => {
+  const getStatusVariant = (status) => {
     switch (status) {
       case 'confirmed':
-        return 'bg-green-100 text-green-800';
+        return 'success';
       case 'completed':
-        return 'bg-blue-100 text-blue-800';
+        return 'primary';
       case 'canceled':
-        return 'bg-red-100 text-red-800';
+        return 'danger';
       default:
-        return 'bg-gray-100 text-gray-800';
+        return 'secondary';
     }
   };
 
@@ -77,57 +78,63 @@ const UserBookings = ({ userId }) => {
 
   if (error) {
     return (
-      <div className="p-4 bg-red-50 text-red-700 rounded-md">
+      <Alert variant="danger">
         {error}
-      </div>
+      </Alert>
     );
   }
 
   const filteredBookings = getFilteredBookings();
 
   return (
-    <div className="bg-white rounded-lg">
-      <div className="mb-6">
-        <h2 className="text-2xl font-bold mb-4">My Bookings</h2>
+    <div>
+      <div className="mb-4">
+        <h3 className="mb-4">My Bookings</h3>
         
-        <div className="flex border-b">
-          <button
-            className={`px-4 py-2 font-medium ${activeTab === 'upcoming' ? 'border-b-2 border-blue-500 text-blue-600' : 'text-gray-500 hover:text-gray-700'}`}
-            onClick={() => setActiveTab('upcoming')}
-          >
-            Upcoming
-          </button>
-          <button
-            className={`px-4 py-2 font-medium ${activeTab === 'past' ? 'border-b-2 border-blue-500 text-blue-600' : 'text-gray-500 hover:text-gray-700'}`}
-            onClick={() => setActiveTab('past')}
-          >
-            Past
-          </button>
-          <button
-            className={`px-4 py-2 font-medium ${activeTab === 'canceled' ? 'border-b-2 border-blue-500 text-blue-600' : 'text-gray-500 hover:text-gray-700'}`}
-            onClick={() => setActiveTab('canceled')}
-          >
-            Canceled
-          </button>
-        </div>
+        <Nav variant="tabs" className="mb-3">
+          <Nav.Item>
+            <Nav.Link 
+              active={activeTab === 'upcoming'}
+              onClick={() => setActiveTab('upcoming')}
+            >
+              Upcoming
+            </Nav.Link>
+          </Nav.Item>
+          <Nav.Item>
+            <Nav.Link 
+              active={activeTab === 'past'}
+              onClick={() => setActiveTab('past')}
+            >
+              Past
+            </Nav.Link>
+          </Nav.Item>
+          <Nav.Item>
+            <Nav.Link 
+              active={activeTab === 'canceled'}
+              onClick={() => setActiveTab('canceled')}
+            >
+              Canceled
+            </Nav.Link>
+          </Nav.Item>
+        </Nav>
       </div>
 
       {filteredBookings.length === 0 ? (
-        <div className="py-8 text-center">
-          <p className="text-gray-500">No {activeTab} bookings found.</p>
+        <div className="text-center py-5">
+          <p className="text-muted">No {activeTab} bookings found.</p>
           {activeTab !== 'upcoming' && (
-            <button
-              className="mt-2 text-blue-600 hover:underline"
+            <Button
+              variant="link"
               onClick={() => setActiveTab('upcoming')}
             >
               View upcoming bookings
-            </button>
+            </Button>
           )}
           {activeTab === 'upcoming' && (
-            <div className="mt-4">
+            <div className="mt-3">
               <Link 
                 to="/listings" 
-                className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700"
+                className="btn btn-primary"
               >
                 Explore listings
               </Link>
@@ -135,53 +142,58 @@ const UserBookings = ({ userId }) => {
           )}
         </div>
       ) : (
-        <div className="space-y-4">
+        <div className="d-grid gap-3">
           {filteredBookings.map(booking => (
-            <div key={booking.booking_id} className="border rounded-lg p-4 hover:shadow-md transition-shadow">
-              <div className="flex flex-col md:flex-row justify-between">
-                <div className="flex-1">
-                  <h3 className="font-bold text-lg">{booking.listing?.title || 'Listing'}</h3>
-                  <div className="mt-2 flex items-center text-sm text-gray-500">
-                    <span className="inline-block mr-3">{formatDate(booking.start_date)} - {formatDate(booking.end_date)}</span>
-                    <span className={`px-2 py-1 rounded-full text-xs font-medium ${getStatusClass(booking.status)}`}>
-                      {booking.status.charAt(0).toUpperCase() + booking.status.slice(1)}
-                    </span>
-                  </div>
-                  <div className="mt-2">
-                    <p className="text-gray-700">
-                      <span className="font-medium">Guests:</span> {booking.number_of_guests}
-                    </p>
-                    <p className="text-gray-700">
-                      <span className="font-medium">Total:</span> ${booking.total_price}
-                    </p>
-                  </div>
-                </div>
-                <div className="flex flex-col space-y-2 mt-4 md:mt-0">
-                  <Link 
-                    to={`/listings/${booking.listing_id}`}
-                    className="text-blue-600 hover:underline text-sm"
-                  >
-                    View listing
-                  </Link>
-                  {canLeaveReview(booking) && (
-                    <Link 
-                      to={`/review/${booking.booking_id}`}
-                      className="px-3 py-1 bg-blue-600 text-white text-center rounded-md text-sm hover:bg-blue-700"
-                    >
-                      Leave review
-                    </Link>
-                  )}
-                  {booking.blockchain_receipt_hash && (
-                    <button 
-                      onClick={() => window.open(`https://etherscan.io/tx/${booking.blockchain_receipt_hash}`, '_blank')}
-                      className="text-blue-600 hover:underline text-sm"
-                    >
-                      View receipt on blockchain
-                    </button>
-                  )}
-                </div>
-              </div>
-            </div>
+            <Card key={booking.booking_id} className="shadow-sm">
+              <Card.Body>
+                <Row>
+                  <Col md={8}>
+                    <h5 className="mb-3">{booking.listing?.title || 'Listing'}</h5>
+                    <div className="mb-3">
+                      <span className="me-2">{formatDate(booking.start_date)} - {formatDate(booking.end_date)}</span>
+                      <Badge bg={getStatusVariant(booking.status)}>
+                        {booking.status.charAt(0).toUpperCase() + booking.status.slice(1)}
+                      </Badge>
+                    </div>
+                    <div className="text-muted">
+                      <p className="mb-1">
+                        <strong>Guests:</strong> {booking.number_of_guests}
+                      </p>
+                      <p className="mb-0">
+                        <strong>Total:</strong> ${booking.total_price}
+                      </p>
+                    </div>
+                  </Col>
+                  <Col md={4} className="text-md-end mt-3 mt-md-0">
+                    <div className="d-grid gap-2">
+                      <Link 
+                        to={`/listings/${booking.listing_id}`}
+                        className="btn btn-outline-primary btn-sm"
+                      >
+                        View listing
+                      </Link>
+                      {canLeaveReview(booking) && (
+                        <Link 
+                          to={`/review/${booking.booking_id}`}
+                          className="btn btn-primary btn-sm"
+                        >
+                          Leave review
+                        </Link>
+                      )}
+                      {booking.blockchain_receipt_hash && (
+                        <Button 
+                          variant="link"
+                          size="sm"
+                          onClick={() => window.open(`https://etherscan.io/tx/${booking.blockchain_receipt_hash}`, '_blank')}
+                        >
+                          View receipt on blockchain
+                        </Button>
+                      )}
+                    </div>
+                  </Col>
+                </Row>
+              </Card.Body>
+            </Card>
           ))}
         </div>
       )}

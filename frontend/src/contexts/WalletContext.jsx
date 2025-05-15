@@ -1,5 +1,5 @@
 import { createContext, useState, useEffect } from 'react';
-import { ethers } from 'ethers';
+import Web3 from 'web3';
 
 export const WalletContext = createContext();
 
@@ -8,8 +8,8 @@ export const WalletProvider = ({ children }) => {
     address: null,
     balance: null,
     network: null,
-    provider: null,
-    signer: null,
+    chainId: null,
+    web3: null,
     connected: false
   });
   const [loading, setLoading] = useState(false);
@@ -52,17 +52,38 @@ export const WalletProvider = ({ children }) => {
 
   const updateWalletInfo = async (address) => {
     try {
-      const provider = new ethers.providers.Web3Provider(window.ethereum);
-      const signer = provider.getSigner();
-      const network = await provider.getNetwork();
-      const balance = await provider.getBalance(address);
+      const web3 = new Web3(window.ethereum);
+      const chainId = await web3.eth.getChainId();
+      const balance = await web3.eth.getBalance(address);
+
+      // Get network name based on chain ID
+      let networkName = 'Unknown';
+      switch (chainId) {
+        case 1:
+          networkName = 'Ethereum Mainnet';
+          break;
+        case 5:
+          networkName = 'Goerli Testnet';
+          break;
+        case 11155111:
+          networkName = 'Sepolia Testnet';
+          break;
+        case 137:
+          networkName = 'Polygon Mainnet';
+          break;
+        case 80001:
+          networkName = 'Mumbai Testnet';
+          break;
+        default:
+          networkName = `Chain ${chainId}`;
+      }
 
       setWallet({
         address,
-        balance: ethers.utils.formatEther(balance),
-        network: network.name,
-        provider,
-        signer,
+        balance: web3.utils.fromWei(balance, 'ether'),
+        network: networkName,
+        chainId,
+        web3,
         connected: true
       });
 
@@ -102,8 +123,8 @@ export const WalletProvider = ({ children }) => {
       address: null,
       balance: null,
       network: null,
-      provider: null,
-      signer: null,
+      chainId: null,
+      web3: null,
       connected: false
     });
     localStorage.removeItem('walletConnected');

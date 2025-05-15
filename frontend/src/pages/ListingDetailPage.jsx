@@ -4,8 +4,8 @@ import { useParams, Link } from "react-router-dom";
 import ListingDetail from "../components/listings/ListingDetail";
 import ReviewsList from "../components/listings/ReviewsList";
 import LoadingSpinner from "../components/common/LoadingSpinner";
-import { getListingById } from "../services/listings.service";
-import { getReviewsByListingId } from "../services/reviews.service";
+import { listingsService } from "../services/listings.service";
+import { reviewsService } from "../services/reviews.service";
 
 const ListingDetailPage = () => {
   const { id } = useParams();
@@ -20,12 +20,12 @@ const ListingDetailPage = () => {
         setLoading(true);
         
         // Fetch listing details
-        const listingData = await getListingById(id);
-        setListing(listingData);
+        const listingData = await listingsService.getListingById(id);
+        setListing(listingData.data);
         
         // Fetch listing reviews
-        const reviewsData = await getReviewsByListingId(id);
-        setReviews(reviewsData);
+        const reviewsData = await reviewsService.getReviewsByListingId(id);
+        setReviews(reviewsData.data);
         
         setLoading(false);
       } catch (err) {

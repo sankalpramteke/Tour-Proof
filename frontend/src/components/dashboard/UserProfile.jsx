@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { Form, Button, Row, Col, Alert } from 'react-bootstrap';
 import { useAuth } from '../../hooks/useAuth';
 import { useWallet } from '../../hooks/useWallet';
 import LoadingSpinner from '../common/LoadingSpinner';
@@ -62,128 +63,137 @@ const UserProfile = ({ user }) => {
   }
 
   return (
-    <div className="bg-white rounded-lg p-4">
-      <div className="flex justify-between items-center mb-6">
-        <h2 className="text-2xl font-bold">My Profile</h2>
-        <button 
+    <div>
+      <div className="d-flex justify-content-between align-items-center mb-4">
+        <h3>My Profile</h3>
+        <Button 
+          variant={isEditing ? 'outline-primary' : 'primary'}
           onClick={() => setIsEditing(!isEditing)}
-          className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700"
         >
           {isEditing ? 'Cancel' : 'Edit Profile'}
-        </button>
+        </Button>
       </div>
 
       {successMessage && (
-        <div className="mb-4 p-3 bg-green-100 text-green-700 rounded-md">
+        <Alert variant="success" onClose={() => setSuccessMessage('')} dismissible>
           {successMessage}
-        </div>
+        </Alert>
       )}
 
       {error && (
-        <div className="mb-4 p-3 bg-red-100 text-red-700 rounded-md">
+        <Alert variant="danger" onClose={() => setError(null)} dismissible>
           {error}
-        </div>
+        </Alert>
       )}
 
       {isEditing ? (
-        <form onSubmit={handleSubmit}>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">
-                Username
-              </label>
-              <input
-                type="text"
-                name="username"
-                value={profileData.username}
-                onChange={handleInputChange}
-                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-                required
-              />
-            </div>
+        <Form onSubmit={handleSubmit}>
+          <Row className="g-4">
+            <Col md={6}>
+              <Form.Group>
+                <Form.Label>Username</Form.Label>
+                <Form.Control
+                  type="text"
+                  name="username"
+                  value={profileData.username}
+                  onChange={handleInputChange}
+                  required
+                />
+              </Form.Group>
+            </Col>
             
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">
-                Email
-              </label>
-              <input
-                type="email"
-                name="email"
-                value={profileData.email}
-                onChange={handleInputChange}
-                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-                required
-                disabled
-              />
-              <p className="text-xs text-gray-500 mt-1">Email cannot be changed</p>
-            </div>
+            <Col md={6}>
+              <Form.Group>
+                <Form.Label>Email</Form.Label>
+                <Form.Control
+                  type="email"
+                  name="email"
+                  value={profileData.email}
+                  onChange={handleInputChange}
+                  required
+                  disabled
+                />
+                <Form.Text className="text-muted">
+                  Email cannot be changed
+                </Form.Text>
+              </Form.Group>
+            </Col>
             
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">
-                Profile Image URL
-              </label>
-              <input
-                type="url"
-                name="profileImage"
-                value={profileData.profileImage}
-                onChange={handleInputChange}
-                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-              />
-            </div>
+            <Col md={6}>
+              <Form.Group>
+                <Form.Label>Profile Image URL</Form.Label>
+                <Form.Control
+                  type="url"
+                  name="profileImage"
+                  value={profileData.profileImage}
+                  onChange={handleInputChange}
+                />
+              </Form.Group>
+            </Col>
             
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">
-                Wallet Address
-              </label>
-              <input
-                type="text"
-                name="walletAddress"
-                value={profileData.walletAddress}
-                className="w-full px-3 py-2 border border-gray-300 rounded-md bg-gray-100"
-                disabled
-              />
-              <p className="text-xs text-gray-500 mt-1">Connect wallet to update</p>
-            </div>
-          </div>
+            <Col md={6}>
+              <Form.Group>
+                <Form.Label>Wallet Address</Form.Label>
+                <Form.Control
+                  type="text"
+                  name="walletAddress"
+                  value={profileData.walletAddress}
+                  disabled
+                  className="bg-light"
+                />
+                <Form.Text className="text-muted">
+                  Connect wallet to update
+                </Form.Text>
+              </Form.Group>
+            </Col>
+          </Row>
           
-          <div className="mt-6">
-            <button 
+          <div className="mt-4">
+            <Button 
               type="submit" 
-              className="px-6 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 disabled:bg-gray-400"
+              variant="primary"
               disabled={isLoading}
             >
               {isLoading ? 'Saving...' : 'Save Changes'}
-            </button>
+            </Button>
           </div>
-        </form>
+        </Form>
       ) : (
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          <div>
-            <h3 className="text-sm font-medium text-gray-500">Username</h3>
-            <p className="mt-1 text-lg">{user.username || 'Not set'}</p>
-          </div>
+        <Row className="g-4">
+          <Col md={6}>
+            <div className="mb-3">
+              <h6 className="text-muted mb-1">Username</h6>
+              <p className="mb-0">{user.username || 'Not set'}</p>
+            </div>
+          </Col>
           
-          <div>
-            <h3 className="text-sm font-medium text-gray-500">Email</h3>
-            <p className="mt-1 text-lg">{user.email}</p>
-          </div>
+          <Col md={6}>
+            <div className="mb-3">
+              <h6 className="text-muted mb-1">Email</h6>
+              <p className="mb-0">{user.email}</p>
+            </div>
+          </Col>
           
-          <div>
-            <h3 className="text-sm font-medium text-gray-500">Member Since</h3>
-            <p className="mt-1 text-lg">
-              {user.createdAt 
-                ? new Date(user.createdAt).toLocaleDateString() 
-                : 'Unknown'}
-            </p>
-          </div>
+          <Col md={6}>
+            <div className="mb-3">
+              <h6 className="text-muted mb-1">Member Since</h6>
+              <p className="mb-0">
+                {user.createdAt 
+                  ? new Date(user.createdAt).toLocaleDateString() 
+                  : 'Unknown'}
+              </p>
+            </div>
+          </Col>
           
-          <div>
-            <h3 className="text-sm font-medium text-gray-500">Wallet Address</h3>
-            <p className="mt-1 text-lg font-mono text-sm break-all">
-              {walletAddress || user.walletAddress || 'Not connected'}
-            </p>
-          </div>
-        </div>
+          <Col md={6}>
+            <div className="mb-3">
+              <h6 className="text-muted mb-1">Wallet Address</h6>
+              <code className="d-block text-break">
+                {walletAddress || user.walletAddress || 'Not connected'}
+              </code>
+            </div>
+          </Col>
+        </Row>
       )}
     </div>
   );

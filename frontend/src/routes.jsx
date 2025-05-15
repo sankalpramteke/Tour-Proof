@@ -1,4 +1,4 @@
-import { createBrowserRouter, RouterProvider } from 'react-router-dom';
+import { Routes, Route } from 'react-router-dom';
 import HomePage from './pages/HomePage';
 import AuthPage from './pages/AuthPage';
 import ListingsPage from './pages/ListingsPage';
@@ -8,52 +8,21 @@ import DashboardPage from './pages/DashboardPage';
 import ReviewPage from './pages/ReviewPage';
 import AboutPage from './pages/AboutPage';
 import NotFoundPage from './pages/NotFoundPage';
-import App from './App';
 
-const router = createBrowserRouter([
-  {
-    path: '/',
-    element: <App />,
-    errorElement: <NotFoundPage />,
-    children: [
-      {
-        index: true,
-        element: <HomePage />
-      },
-      {
-        path: 'auth',
-        element: <AuthPage />
-      },
-      {
-        path: 'listings',
-        element: <ListingsPage />
-      },
-      {
-        path: 'listings/:id',
-        element: <ListingDetailPage />
-      },
-      {
-        path: 'booking/:listingId',
-        element: <BookingPage />
-      },
-      {
-        path: 'dashboard',
-        element: <DashboardPage />
-      },
-      {
-        path: 'review/:bookingId',
-        element: <ReviewPage />
-      },
-      {
-        path: 'about',
-        element: <AboutPage />
-      }
-    ]
-  }
-]);
-
-const Routes = () => {
-  return <RouterProvider router={router} />;
+const AppRoutes = () => {
+  return (
+    <Routes>
+      <Route path="/" element={<HomePage />} />
+      <Route path="/auth" element={<AuthPage />} />
+      <Route path="/listings" element={<ListingsPage />} />
+      <Route path="/listings/:id" element={<ListingDetailPage />} />
+      <Route path="/booking/:listingId" element={<BookingPage />} />
+      <Route path="/dashboard" element={<DashboardPage />} />
+      <Route path="/review/:bookingId" element={<ReviewPage />} />
+      <Route path="/about" element={<AboutPage />} />
+      <Route path="*" element={<NotFoundPage />} />
+    </Routes>
+  );
 };
 
-export default Routes;
+export default AppRoutes;

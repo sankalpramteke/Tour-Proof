@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
+import { Form, Button, Row, Col } from 'react-bootstrap';
 
 const LoginForm = ({ onSubmit }) => {
   const [formData, setFormData] = useState({
@@ -22,54 +23,55 @@ const LoginForm = ({ onSubmit }) => {
   };
   
   return (
-    <form className="auth-form login-form" onSubmit={handleSubmit}>
-      <div className="form-group">
-        <label htmlFor="email">Email Address</label>
-        <input
+    <Form onSubmit={handleSubmit}>
+      <Form.Group className="mb-3" controlId="email">
+        <Form.Label>Email Address</Form.Label>
+        <Form.Control
           type="email"
-          id="email"
           name="email"
           value={formData.email}
           onChange={handleChange}
           placeholder="your@email.com"
           required
         />
-      </div>
+      </Form.Group>
       
-      <div className="form-group">
-        <label htmlFor="password">Password</label>
-        <input
+      <Form.Group className="mb-3" controlId="password">
+        <Form.Label>Password</Form.Label>
+        <Form.Control
           type="password"
-          id="password"
           name="password"
           value={formData.password}
           onChange={handleChange}
           placeholder="Enter your password"
           required
         />
-      </div>
+      </Form.Group>
       
-      <div className="form-row">
-        <div className="form-checkbox">
-          <input
+      <Row className="mb-3">
+        <Col>
+          <Form.Check
             type="checkbox"
             id="rememberMe"
             name="rememberMe"
+            label="Remember me"
             checked={formData.rememberMe}
             onChange={handleChange}
           />
-          <label htmlFor="rememberMe">Remember me</label>
-        </div>
-        
-        <Link to="/auth/forgot-password" className="forgot-password-link">
-          Forgot Password?
-        </Link>
-      </div>
+        </Col>
+        <Col className="text-end">
+          <Link to="/auth/forgot-password" className="text-decoration-none">
+            Forgot Password?
+          </Link>
+        </Col>
+      </Row>
       
-      <button type="submit" className="btn btn-primary btn-block">
-        Log In
-      </button>
-    </form>
+      <div className="d-grid">
+        <Button variant="primary" type="submit" size="lg">
+          Log In
+        </Button>
+      </div>
+    </Form>
   );
 };
 

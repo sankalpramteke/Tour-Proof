@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { Container, Row, Col, Card, Nav, Alert, Image } from 'react-bootstrap';
 import UserProfile from '../components/dashboard/UserProfile';
 import UserBookings from '../components/dashboard/UserBookings';
 import UserReviews from '../components/dashboard/UserReviews';
@@ -37,75 +38,89 @@ const DashboardPage = () => {
   };
 
   return (
-    <div className="container mx-auto px-4 py-8">
-      <div className="bg-white rounded-lg shadow-md p-6">
-        <div className="flex flex-col md:flex-row items-start gap-6">
-          {/* Sidebar */}
-          <div className="w-full md:w-1/4 bg-gray-50 rounded-lg p-4">
-            <div className="text-center mb-6">
-              <div className="w-24 h-24 mx-auto rounded-full bg-blue-100 flex items-center justify-center mb-3">
-                {user?.profileImage ? (
-                  <img 
-                    src={user.profileImage} 
-                    alt={user.username} 
-                    className="w-full h-full rounded-full object-cover"
-                  />
-                ) : (
-                  <span className="text-3xl font-bold text-blue-500">
-                    {user?.username?.charAt(0).toUpperCase() || 'U'}
-                  </span>
-                )}
-              </div>
-              <h2 className="font-bold text-xl">{user?.username || 'User'}</h2>
-              <p className="text-gray-500 text-sm">{user?.email}</p>
-              
-              {walletBalance !== null && (
-                <div className="mt-3 bg-blue-50 p-2 rounded-md">
-                  <p className="text-sm font-medium">Token Balance</p>
-                  <p className="text-blue-600 font-bold">{walletBalance} TPT</p>
-                </div>
-              )}
-            </div>
+    <Container className="my-5">
+      <Card className="shadow-sm">
+        <Card.Body>
+          <Row className="g-4">
+            {/* Sidebar */}
+            <Col md={4} lg={3}>
+              <Card className="bg-light">
+                <Card.Body className="text-center">
+                  <div className="mb-3">
+                    {user?.profileImage ? (
+                      <Image
+                        src={user.profileImage}
+                        alt={user.username}
+                        roundedCircle
+                        style={{ width: '96px', height: '96px', objectFit: 'cover' }}
+                      />
+                    ) : (
+                      <div 
+                        className="bg-primary bg-opacity-10 rounded-circle d-flex align-items-center justify-content-center"
+                        style={{ width: '96px', height: '96px', margin: '0 auto' }}
+                      >
+                        <span className="h3 mb-0 text-primary">
+                          {user?.username?.charAt(0).toUpperCase() || 'U'}
+                        </span>
+                      </div>
+                    )}
+                  </div>
+                  <h4 className="mb-1">{user?.username || 'User'}</h4>
+                  <p className="text-muted small mb-3">{user?.email}</p>
+                  
+                  {walletBalance !== null && (
+                    <Alert variant="primary" className="text-center p-2 mb-0">
+                      <small className="d-block">Token Balance</small>
+                      <strong>{walletBalance} TPT</strong>
+                    </Alert>
+                  )}
+                </Card.Body>
+                
+                <Card.Footer className="bg-transparent">
+                  <Nav className="flex-column" variant="pills">
+                    <Nav.Item>
+                      <Nav.Link 
+                        active={activeTab === 'profile'}
+                        onClick={() => setActiveTab('profile')}
+                        className="text-start"
+                      >
+                        <i className="bi bi-person me-2"></i>
+                        Profile
+                      </Nav.Link>
+                    </Nav.Item>
+                    <Nav.Item>
+                      <Nav.Link 
+                        active={activeTab === 'bookings'}
+                        onClick={() => setActiveTab('bookings')}
+                        className="text-start"
+                      >
+                        <i className="bi bi-calendar-check me-2"></i>
+                        My Bookings
+                      </Nav.Link>
+                    </Nav.Item>
+                    <Nav.Item>
+                      <Nav.Link 
+                        active={activeTab === 'reviews'}
+                        onClick={() => setActiveTab('reviews')}
+                        className="text-start"
+                      >
+                        <i className="bi bi-star me-2"></i>
+                        My Reviews
+                      </Nav.Link>
+                    </Nav.Item>
+                  </Nav>
+                </Card.Footer>
+              </Card>
+            </Col>
             
-            <div className="border-t pt-4">
-              <ul className="space-y-2">
-                <li>
-                  <button 
-                    className={`w-full text-left px-3 py-2 rounded-md ${activeTab === 'profile' ? 'bg-blue-100 text-blue-700' : 'hover:bg-gray-200'}`}
-                    onClick={() => setActiveTab('profile')}
-                  >
-                    Profile
-                  </button>
-                </li>
-                <li>
-                  <button 
-                    className={`w-full text-left px-3 py-2 rounded-md ${activeTab === 'bookings' ? 'bg-blue-100 text-blue-700' : 'hover:bg-gray-200'}`}
-                    onClick={() => setActiveTab('bookings')}
-                  >
-                    My Bookings
-                  </button>
-                </li>
-                <li>
-                  <button 
-                    className={`w-full text-left px-3 py-2 rounded-md ${activeTab === 'reviews' ? 'bg-blue-100 text-blue-700' : 'hover:bg-gray-200'}`}
-                    onClick={() => setActiveTab('reviews')}
-                  >
-                    My Reviews
-                  </button>
-                </li>
-              </ul>
-            </div>
-          </div>
-          
-          {/* Main Content */}
-          <div className="w-full md:w-3/4">
-            <div className="bg-white">
+            {/* Main Content */}
+            <Col md={8} lg={9}>
               {renderTabContent()}
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
+            </Col>
+          </Row>
+        </Card.Body>
+      </Card>
+    </Container>
   );
 };
 
