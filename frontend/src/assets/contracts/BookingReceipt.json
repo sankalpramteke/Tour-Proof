@@ -1,0 +1,32 @@
+{
+  "abi": [
+    {
+      "inputs": [
+        {
+          "internalType": "string",
+          "name": "bookingId",
+          "type": "string"
+        },
+        {
+          "internalType": "string",
+          "name": "userId",
+          "type": "string"
+        },
+        {
+          "internalType": "string",
+          "name": "listingId",
+          "type": "string"
+        },
+        {
+          "internalType": "bytes32",
+          "name": "bookingDetailsHash",
+          "type": "bytes32"
+        }
+      ],
+      "name": "createReceipt",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    }
+  ]
+}

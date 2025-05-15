@@ -1,7 +1,7 @@
 import React from "react";
 import { Card, Badge } from "react-bootstrap";
 import { Link } from "react-router-dom";
-import VerifiedBadge from "./VerifiedBadge";
+import VerifiedBadge from "../reviews/VerifiedBadge";
 
 const ListingCard = ({ listing }) => {
   // Destructure listing properties

@@ -3,7 +3,7 @@ import { Container, Row, Col, Form } from "react-bootstrap";
 import ListingCard from "../components/listings/ListingCard";
 import SearchFilters from "../components/listings/SearchFilters";
 import LoadingSpinner from "../components/common/LoadingSpinner";
-import { getListings } from "../services/listings.service";
+import { listingsService } from "../services/listings.service";
 
 const ListingsPage = () => {
   const [listings, setListings] = useState([]);
@@ -21,8 +21,8 @@ const ListingsPage = () => {
       try {
         setLoading(true);
         // Apply filters to the API call
-        const response = await getListings(filters);
-        setListings(response.data);
+        const response = await listingsService.getAllListings(filters);
+        setListings(response);
         setLoading(false);
       } catch (error) {
         console.error("Error fetching listings:", error);
