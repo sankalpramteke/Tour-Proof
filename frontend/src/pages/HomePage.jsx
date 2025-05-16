@@ -43,49 +43,33 @@ const HomePage = () => {
       </section>
 
       {/* Features Section */}
-      <section className="features-section py-5">
-        <Container>
-          <h2 className="text-center mb-5">Why Choose TourProof</h2>
-          <Row className="g-4">
-            <Col md={3}>
-              <Card className="h-100 text-center p-3">
-                <Card.Body>
-                  <div className="display-4 mb-3">🔐</div>
-                  <Card.Title>Blockchain Verified</Card.Title>
-                  <Card.Text>Every review is confirmed through blockchain technology, ensuring authenticity</Card.Text>
-                </Card.Body>
-              </Card>
-            </Col>
-            <Col md={3}>
-              <Card className="h-100 text-center p-3">
-                <Card.Body>
-                  <div className="display-4 mb-3">🏆</div>
-                  <Card.Title>Earn Rewards</Card.Title>
-                  <Card.Text>Get tokens for verified reviews that you can use for discounts on future bookings</Card.Text>
-                </Card.Body>
-              </Card>
-            </Col>
-            <Col md={3}>
-              <Card className="h-100 text-center p-3">
-                <Card.Body>
-                  <div className="display-4 mb-3">👥</div>
-                  <Card.Title>Trusted Community</Card.Title>
-                  <Card.Text>Join thousands of travelers sharing real experiences</Card.Text>
-                </Card.Body>
-              </Card>
-            </Col>
-            <Col md={3}>
-              <Card className="h-100 text-center p-3">
-                <Card.Body>
-                  <div className="display-4 mb-3">💯</div>
-                  <Card.Title>Direct Booking</Card.Title>
-                  <Card.Text>Book directly through our platform with confidence</Card.Text>
-                </Card.Body>
-              </Card>
-            </Col>
-          </Row>
-        </Container>
-      </section>
+<section className="features-section py-5">
+  <Container>
+    <h2 className="text-center mb-5">Why Choose TourProof</h2>
+    <div className="scrolling-row">
+      {[  // Map through the features to make it cleaner
+        { icon: "🔐", title: "Blockchain Verified", text: "Every review is confirmed through blockchain technology, ensuring authenticity" },
+        { icon: "🏆", title: "Earn Rewards", text: "Get tokens for verified reviews that you can use for discounts on future bookings" },
+        { icon: "👥", title: "Trusted Community", text: "Join thousands of travelers sharing real experiences" },
+        { icon: "💯", title: "Direct Booking", text: "Book directly through our platform with confidence" },
+        // Repeat them so it loops seamlessly
+        { icon: "🔐", title: "Blockchain Verified", text: "Every review is confirmed through blockchain technology, ensuring authenticity" },
+        { icon: "🏆", title: "Earn Rewards", text: "Get tokens for verified reviews that you can use for discounts on future bookings" },
+        { icon: "👥", title: "Trusted Community", text: "Join thousands of travelers sharing real experiences" },
+        { icon: "💯", title: "Direct Booking", text: "Book directly through our platform with confidence" },
+      ].map((feature, index) => (
+        <Card key={index} className="feature-card text-center p-3 mx-2">
+          <Card.Body>
+            <div className="display-4 mb-3">{feature.icon}</div>
+            <Card.Title>{feature.title}</Card.Title>
+            <Card.Text>{feature.text}</Card.Text>
+          </Card.Body>
+        </Card>
+      ))}
+    </div>
+  </Container>
+</section>
+
 
       {/* Popular Listings Section */}
       <section className="popular-listings-section py-5 bg-light">
