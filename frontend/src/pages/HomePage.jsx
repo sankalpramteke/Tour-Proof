@@ -45,7 +45,8 @@ const HomePage = () => {
       {/* Features Section */}
 <section className="features-section py-5">
   <Container>
-    <h2 className="text-center mb-5">Why Choose TourProof</h2>
+    <h1 className="text-center mb-5 feature-heading">Why Choose TourProof</h1>
+
     <div className="scrolling-row">
       {[  // Map through the features to make it cleaner
         { icon: "🔐", title: "Blockchain Verified", text: "Every review is confirmed through blockchain technology, ensuring authenticity" },
