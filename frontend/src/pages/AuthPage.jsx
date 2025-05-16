@@ -6,6 +6,7 @@ import { useWallet } from '../hooks/useWallet';
 import LoginForm from '../components/auth/LoginForm';
 import SignupForm from '../components/auth/SignupForm';
 import MetaMaskConnect from '../components/auth/MetaMaskConnect';
+import '../components/auth/Auth.css';
 
 const AuthPage = () => {
   const [activeTab, setActiveTab] = useState('login');
@@ -51,12 +52,13 @@ const AuthPage = () => {
   };
   
   return (
-    <Container className="py-5">
-      <Row className="justify-content-center">
-        <Col md={8} lg={6}>
-          <Card className="shadow-sm">
-            <Card.Body className="p-4">
-              <Nav variant="tabs" className="mb-4">
+    <div className="auth-form-container">
+      <Container>
+        <Row className="justify-content-center">
+          <Col md={8} lg={6}>
+            <Card className="border-0 shadow-lg">
+              <Card.Body className="p-0">
+              <Nav variant="tabs" className="mb-4 auth-tabs">
                 <Nav.Item>
                   <Nav.Link 
                     active={activeTab === 'login'}
@@ -110,6 +112,7 @@ const AuthPage = () => {
         </Col>
       </Row>
     </Container>
+    </div>
   );
 };
 

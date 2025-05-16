@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Form, Button, Row, Col } from 'react-bootstrap';
+import './Auth.css';
 
 const LoginForm = ({ onSubmit }) => {
   const [formData, setFormData] = useState({
@@ -23,7 +24,7 @@ const LoginForm = ({ onSubmit }) => {
   };
   
   return (
-    <Form onSubmit={handleSubmit}>
+    <Form onSubmit={handleSubmit} className="auth-form">
       <Form.Group className="mb-3" controlId="email">
         <Form.Label>Email Address</Form.Label>
         <Form.Control
@@ -60,14 +61,14 @@ const LoginForm = ({ onSubmit }) => {
           />
         </Col>
         <Col className="text-end">
-          <Link to="/auth/forgot-password" className="text-decoration-none">
+          <Link to="/auth/forgot-password" className="auth-link">
             Forgot Password?
           </Link>
         </Col>
       </Row>
       
       <div className="d-grid">
-        <Button variant="primary" type="submit" size="lg">
+        <Button variant="primary" type="submit" size="lg" className="w-100">
           Log In
         </Button>
       </div>

@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom/client'
 import { createBrowserRouter, RouterProvider } from 'react-router-dom'
 import App from './App.jsx'
 import { AuthProvider } from './contexts/AuthContext'
+import './styles/colors.css'
 import { WalletProvider } from './contexts/WalletContext'
 
 const router = createBrowserRouter([{ path: '*', element: <App /> }], {

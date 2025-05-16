@@ -1,77 +1,71 @@
 import React, { useState } from 'react';
-import { Link, useLocation } from 'react-router-dom';
-import { Navbar as BootstrapNavbar, Nav, Container, Button } from 'react-bootstrap';
-import { useAuth } from '../../hooks/useAuth';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
+import { Navbar as BootstrapNavbar, Container, Dropdown } from 'react-bootstrap';
+import { BsPerson } from 'react-icons/bs';
 import MetaMaskConnect from './MetaMaskConnect';
+import logo from '../../assets/TourProof Logo.png';
+import './Navbar.css';
 
 const Navbar = () => {
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const { isAuthenticated, user, logout } = useAuth();
   const location = useLocation();
-
-  const toggleMenu = () => {
-    setIsMenuOpen(!isMenuOpen);
-  };
-
-  const closeMenu = () => {
-    setIsMenuOpen(false);
-  };
-
-  const handleLogout = () => {
-    logout();
-    closeMenu();
-  };
+  const navigate = useNavigate();
+  const [showAuthModal, setShowAuthModal] = useState(false);
 
   const isActive = (path) => {
     return location.pathname === path;
   };
 
+  const handleAuth = (type) => {
+    navigate(`/${type}`);
+  };
+
   return (
-    <BootstrapNavbar bg="white" expand="lg" className="shadow-sm">
-      <Container>
-        <BootstrapNavbar.Brand as={Link} to="/" className="fw-bold text-primary">
-          TourProof
+    <div className="navbar-wrapper">
+      <BootstrapNavbar expand="lg" className="navbar">
+        <Container className="navbar-container">
+        <BootstrapNavbar.Brand as={Link} to="/" className="navbar-logo">
+          <img src={logo} alt="TourProof" height="40" />
         </BootstrapNavbar.Brand>
-        
-        <BootstrapNavbar.Toggle aria-controls="basic-navbar-nav" />
-        
-        <BootstrapNavbar.Collapse id="basic-navbar-nav">
-          <Nav className="me-auto">
-            <Nav.Link as={Link} to="/" active={isActive('/')}>
-              Home
-            </Nav.Link>
-            <Nav.Link as={Link} to="/listings" active={isActive('/listings')}>
-              Explore
-            </Nav.Link>
-            <Nav.Link as={Link} to="/about" active={isActive('/about')}>
+
+        <BootstrapNavbar.Toggle aria-controls="navbar-nav" />
+        <BootstrapNavbar.Collapse id="navbar-nav">
+          <div className="navbar-links ms-auto">
+            <Link 
+              to="/listings" 
+              className="nav-link" 
+              style={isActive('/listings') ? { color: 'var(--primary)' } : {}}
+            >
+              Listings
+            </Link>
+            <Link 
+              to="/about" 
+              className="nav-link" 
+              style={isActive('/about') ? { color: 'var(--primary)' } : {}}
+            >
               About
-            </Nav.Link>
-          </Nav>
-          
-          <Nav>
-            {isAuthenticated ? (
-              <>
-                <MetaMaskConnect />
-              </>
-            ) : (
-              <>
-                <Nav.Link as={Link} to="/auth?action=login">
-                  Login
-                </Nav.Link>
-                <Button
-                  as={Link}
-                  to="/auth?action=signup"
-                  variant="primary"
-                  className="ms-2"
-                >
-                  Sign Up
-                </Button>
-              </>
-            )}
-          </Nav>
+            </Link>
+            <Link 
+              to="/contact" 
+              className="nav-link" 
+              style={isActive('/contact') ? { color: 'var(--primary)' } : {}}
+            >
+              Contact
+            </Link>
+            <MetaMaskConnect className="nav-button connect-wallet" />
+            <Dropdown align="end">
+              <Dropdown.Toggle variant="link" id="auth-dropdown" className="auth-icon-button">
+                <BsPerson size={24} />
+              </Dropdown.Toggle>
+              <Dropdown.Menu className="auth-dropdown-menu">
+                <Dropdown.Item onClick={() => handleAuth('login')}>Login</Dropdown.Item>
+                <Dropdown.Item onClick={() => handleAuth('signup')}>Sign Up</Dropdown.Item>
+              </Dropdown.Menu>
+            </Dropdown>
+          </div>
         </BootstrapNavbar.Collapse>
-      </Container>
-    </BootstrapNavbar>
+        </Container>
+      </BootstrapNavbar>
+    </div>
   );
 };
 

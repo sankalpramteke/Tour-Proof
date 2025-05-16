@@ -1,0 +1,19 @@
+:root {
+  /* Main palette colors */
+  --midnight-blue: #191970;
+  --aurora-green: #00FFB2;
+  --star-white: #F8F8FF;
+  --violet-fog: #9370DB;
+  --shadow-black: #1C1C1C;
+
+  /* UI Colors */
+  --primary-bg: var(--midnight-blue);
+  --secondary-bg: var(--aurora-green);
+  --accent: var(--violet-fog);
+  --text-primary: var(--star-white);
+  --text-dark: var(--shadow-black);
+
+  /* Gradients */
+  --gradient-primary: linear-gradient(90deg, var(--midnight-blue) 0%, var(--violet-fog) 100%);
+  --gradient-accent: linear-gradient(90deg, var(--aurora-green) 0%, var(--violet-fog) 100%);
+}

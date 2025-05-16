@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { Container, Row, Col, Card, Button, Spinner } from 'react-bootstrap';
 import { listingsService } from '../services/listings.service';
+import './HomePage.css';
 
 const HomePage = () => {
   const [popularListings, setPopularListings] = useState([]);
@@ -26,7 +27,7 @@ const HomePage = () => {
   return (
     <div className="home-container">
       {/* Hero Section */}
-      <section className="hero-section bg-primary text-white py-5">
+      <section className="hero-section text-white">
         <Container>
           <Row className="align-items-center text-center py-5">
             <Col>

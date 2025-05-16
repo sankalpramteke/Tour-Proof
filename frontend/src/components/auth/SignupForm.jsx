@@ -3,6 +3,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { Form, Button, Alert, Row, Col } from 'react-bootstrap';
 import { useAuth } from '../../hooks/useAuth';
 import LoadingSpinner from '../common/LoadingSpinner';
+import './Auth.css';
 
 const SignupForm = () => {
   const [formData, setFormData] = useState({
@@ -86,7 +87,7 @@ const SignupForm = () => {
   };
 
   return (
-    <div className="p-4">
+    <div className="auth-form">
       <h2 className="text-center mb-4">Create Your TourProof Account</h2>
       
       {errors.form && (
@@ -158,6 +159,7 @@ const SignupForm = () => {
             type="submit"
             size="lg"
             disabled={isLoading}
+            className="w-100"
           >
             {isLoading ? <LoadingSpinner size="sm" /> : 'Sign Up'}
           </Button>
@@ -177,7 +179,7 @@ const SignupForm = () => {
         <Col xs={6}>
           <Button
             variant="outline-secondary"
-            className="w-100"
+            className="w-100 social-btn"
             onClick={() => window.alert('Twitter integration coming soon!')}
           >
             <svg className="bi" width="16" height="16" fill="currentColor">
@@ -188,7 +190,7 @@ const SignupForm = () => {
         <Col xs={6}>
           <Button
             variant="outline-secondary"
-            className="w-100"
+            className="w-100 social-btn"
             onClick={() => window.alert('GitHub integration coming soon!')}
           >
             <svg className="bi" width="16" height="16" fill="currentColor">
@@ -201,7 +203,7 @@ const SignupForm = () => {
       <div className="text-center">
         <p className="text-muted">
           Already have an account?{' '}
-          <Link to="/auth?action=login" className="text-decoration-none">
+          <Link to="/auth?action=login" className="auth-link">
             Log in
           </Link>
         </p>
