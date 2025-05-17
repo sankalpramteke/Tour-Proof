@@ -254,7 +254,7 @@ const HomePage = () => {
               <h1 className="display-4 mb-4">Authentic reviews. Verified journeys.</h1>
               <p className="lead mb-4">Experience travel with confidence through blockchain-verified reviews and seamless bookings</p>
               <div className="d-flex gap-3 justify-content-center">
-                <Link to="/listings" className="btn btn-light btn-lg">Explore Destinations</Link>
+                <Link to="/listings" className="btn btn-lg" style={{ backgroundColor: '#D4FF44', color: '#000' }}>Explore Destinations</Link>
                 <Link to="/about" className="btn btn-outline-light btn-lg">Learn More</Link>
               </div>
             </Col>
@@ -348,7 +348,7 @@ const HomePage = () => {
             </div>
           )}
           <div className="text-center mt-5">
-            <Link to="/listings" className="btn btn-primary btn-lg">View All Destinations</Link>
+            <Link to="/listings" className="btn btn-lg" style={{ backgroundColor: '#D4FF44', color: '#000' }}>View All Destinations</Link>
           </div>
         </Container>
       </section>
@@ -395,10 +395,10 @@ const HomePage = () => {
         </Container>
       </section>
 
-      {/* Testimonials Section - Updated with Indian names */}
+      {/* Testimonials Section*/}
       <section className="testimonials-section py-5">
         <Container>
-          <h2 className="text-center mb-5">What Our Users Say</h2>
+          <h2 className="text-center mb-5 text-white">What Our Users Say</h2>
           <Row className="g-4">
             <Col md={4}>
               <Card className="h-100 shadow-sm testimonial-card">
@@ -458,16 +458,7 @@ const HomePage = () => {
         </Container>
       </section>
 
-      {/* Call to Action - Updated with Connect Wallet button */}
-      <section className="cta-section py-5 text-white text-center">
-        <Container>
-          <h2 className="display-5 mb-4">Ready to experience authentic travel?</h2>
-          <p className="lead mb-4">Join TourProof today and discover a new way to travel with confidence.</p>
-          <div className="d-flex gap-3 justify-content-center">
-            <Link to="/auth" className="connect-wallet-btn">Connect Wallet →</Link>
-          </div>
-        </Container>
-      </section>
+      
     </div>
   );
 };

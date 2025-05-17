@@ -1,6 +1,7 @@
 import React from 'react'
 import Routes from './routes'
 import Navbar from './components/common/Navbar'
+import Footer from './components/common/Footer'
 import { WalletProvider } from './contexts/WalletContext'
 
 // Import Bootstrap CSS and JS
@@ -20,6 +21,7 @@ function App() {
         <main className="main-content">
           <Routes />
         </main>
+        <Footer />
       </div>
     </WalletProvider>
   )
