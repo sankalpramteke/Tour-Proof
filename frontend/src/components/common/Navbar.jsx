@@ -16,7 +16,7 @@ const Navbar = () => {
   };
 
   const handleAuth = (type) => {
-    navigate(`/${type}`);
+    navigate('/auth', { state: { activeTab: type } });
   };
 
   return (

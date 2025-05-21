@@ -5,7 +5,9 @@
   position: relative;
   border-top-left-radius: 24px;
   border-top-right-radius: 24px;
-  margin-top: 2rem;
+  width: 100%;
+  z-index: 0;
+  margin-top: auto;
 }
 
 .footer-container {

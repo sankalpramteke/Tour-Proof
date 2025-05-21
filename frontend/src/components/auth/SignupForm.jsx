@@ -88,7 +88,7 @@ const SignupForm = () => {
 
   return (
     <div className="auth-form">
-      <h2 className="text-center mb-4">Create Your TourProof Account</h2>
+      <h2 className="text-center mb-4 auth-title">Create Your Account</h2>
       
       {errors.form && (
         <Alert variant="danger" className="mb-4">
