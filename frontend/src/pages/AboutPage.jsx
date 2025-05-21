@@ -1,19 +1,16 @@
 import React from 'react';
 import { Container, Row, Col, Card, Image } from 'react-bootstrap';
-import Header from '../components/common/Header';
-import Footer from '../components/common/Footer';
+import './About.css';
 
 const AboutPage = () => {
   return (
-    <div className="d-flex flex-column min-vh-100">
-      <Header />
-      <main className="flex-grow-1">
-        <section className="bg-light py-5">
+    <div className="about-page">
+      <section className="hero-section">
           <Container>
-            <h1 className="display-4 text-center mb-4">About TourProof</h1>
             <Row className="justify-content-center">
-              <Col lg={8}>
-                <p className="lead text-muted mb-4">
+              <Col lg={8} className="text-center">
+                <h1 className="hero-title">About TourProof</h1>
+                <p className="hero-text">
                   TourProof is revolutionizing the travel industry by combining the security of blockchain
                   technology with a user-friendly booking and review platform. Our mission is to create a
                   transparent ecosystem where travelers can trust reviews and businesses can showcase their
@@ -24,15 +21,15 @@ const AboutPage = () => {
           </Container>
         </section>
 
-        <section className="py-5">
+        <section className="features-section">
           <Container>
-            <h2 className="h2 text-center mb-5">How Blockchain Verification Works</h2>
+            <h2 className="section-title">How Blockchain Verification Works</h2>
             <Row className="g-4">
               <Col md={4}>
-                <Card className="h-100 text-center">
+                <Card className="feature-card">
                   <Card.Body>
-                    <div className="d-flex align-items-center justify-content-center mb-3">
-                      <div className="bg-primary bg-opacity-10 rounded-circle p-3">
+                    <div className="feature-icon">
+                      <div className="icon-circle">
                         <svg xmlns="http://www.w3.org/2000/svg" className="text-primary" width="32" height="32" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
                         </svg>
@@ -46,10 +43,10 @@ const AboutPage = () => {
                 </Card>
               </Col>
               <Col md={4}>
-                <Card className="h-100 text-center">
+                <Card className="feature-card">
                   <Card.Body>
-                    <div className="d-flex align-items-center justify-content-center mb-3">
-                      <div className="bg-primary bg-opacity-10 rounded-circle p-3">
+                    <div className="feature-icon">
+                      <div className="icon-circle">
                         <svg xmlns="http://www.w3.org/2000/svg" className="text-primary" width="32" height="32" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
                         </svg>
@@ -63,10 +60,10 @@ const AboutPage = () => {
                 </Card>
               </Col>
               <Col md={4}>
-                <Card className="h-100 text-center">
+                <Card className="feature-card">
                   <Card.Body>
-                    <div className="d-flex align-items-center justify-content-center mb-3">
-                      <div className="bg-primary bg-opacity-10 rounded-circle p-3">
+                    <div className="feature-icon">
+                      <div className="icon-circle">
                         <svg xmlns="http://www.w3.org/2000/svg" className="text-primary" width="32" height="32" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
                         </svg>
@@ -83,9 +80,34 @@ const AboutPage = () => {
           </Container>
         </section>
 
-        <section className="bg-light py-5">
+        <section className="stats-section">
           <Container>
-            <h2 className="h2 text-center mb-5">Our Team</h2>
+            <Row className="justify-content-center text-center">
+              <Col md={4}>
+                <div className="stat-item">
+                  <h3>1M+</h3>
+                  <p>Verified Reviews</p>
+                </div>
+              </Col>
+              <Col md={4}>
+                <div className="stat-item">
+                  <h3>50K+</h3>
+                  <p>Happy Travelers</p>
+                </div>
+              </Col>
+              <Col md={4}>
+                <div className="stat-item">
+                  <h3>100%</h3>
+                  <p>Secure Transactions</p>
+                </div>
+              </Col>
+            </Row>
+          </Container>
+        </section>
+
+        <section className="team-section">
+          <Container>
+            <h2 className="section-title">Our Team</h2>
             <Row className="justify-content-center g-4">
               <Col md={4} className="text-center">
                 <div className="mb-4">
@@ -130,9 +152,9 @@ const AboutPage = () => {
           </Container>
         </section>
 
-        <section className="py-5">
+        <section className="faq-section">
           <Container>
-            <h2 className="h2 text-center mb-5">Frequently Asked Questions</h2>
+            <h2 className="section-title">Frequently Asked Questions</h2>
             <Row className="justify-content-center">
               <Col lg={8}>
                 <Card className="mb-4">
@@ -184,8 +206,6 @@ const AboutPage = () => {
             </Row>
           </Container>
         </section>
-      </main>
-      <Footer />
     </div>
   );
 };

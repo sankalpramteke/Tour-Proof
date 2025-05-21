@@ -370,7 +370,9 @@
 }
 
 .carousel-nav-btn:hover {
-  background-color: #f8f9fa;
+  background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.6)), url('../../assets/background.jpg');
+  background-size: cover;
+  background-position: center;
   border-color: #adb5bd;
 }
 
@@ -407,7 +409,9 @@
 
 /* Make hero section match TravelPerk branding */
 .hero-section {
-  background-color: #211548;
+  background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.6)), url('../assets/background.jpg');
+  background-size: cover;
+  background-position: center;
   padding: 100px 0;
 }
 

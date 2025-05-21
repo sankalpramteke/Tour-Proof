@@ -1,0 +1,122 @@
+.contact-page {
+  background: linear-gradient(to bottom, #f8f9fa, #ffffff);
+}
+
+.hero-section {
+  background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.7)), url('../../assets/background.jpg');
+  background-size: cover;
+  background-position: center;
+  color: white;
+  padding: 100px 0;
+  margin-bottom: 80px;
+  clip-path: polygon(0 0, 100% 0, 100% 85%, 0 100%);
+}
+
+.hero-title {
+  font-size: 3.5rem;
+  font-weight: 700;
+  margin-bottom: 30px;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.hero-text {
+  font-size: 1.25rem;
+  line-height: 1.8;
+  opacity: 0.9;
+}
+
+.contact-section {
+  padding: 0 0 80px 0;
+}
+
+.contact-card {
+  border: none;
+  border-radius: 15px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease;
+}
+
+.contact-card:hover {
+  transform: translateY(-5px);
+}
+
+.form-control {
+  border: 2px solid #e9ecef;
+  border-radius: 10px;
+  padding: 12px;
+  font-size: 1rem;
+  transition: all 0.3s ease;
+}
+
+.form-control:focus {
+  border-color: #C1FF72;
+  box-shadow: 0 0 0 0.2rem rgba(193, 255, 114, 0.25);
+}
+
+.submit-btn {
+  background: #C1FF72 !important;
+  border: none !important;
+  color: #000 !important;
+  font-weight: 600 !important;
+  padding: 12px 24px !important;
+  border-radius: 10px !important;
+  font-size: 1.1rem !important;
+  transition: all 0.3s ease !important;
+}
+
+.submit-btn:hover {
+  background: #b4ed3c !important;
+  transform: translateY(-2px);
+  box-shadow: 0 5px 15px rgba(193, 255, 114, 0.4);
+}
+
+.contact-info {
+  margin-top: 0;
+}
+
+.info-card {
+  border: none;
+  border-radius: 15px;
+  background: white;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+  transition: transform 0.3s ease;
+}
+
+.info-card:hover {
+  transform: translateY(-5px);
+}
+
+.info-card h3 {
+  font-size: 1.5rem;
+  font-weight: 600;
+  margin-bottom: 20px;
+  color: #1A1A1A;
+}
+
+.info-card p {
+  color: #666;
+  margin-bottom: 10px;
+  line-height: 1.6;
+}
+
+.info-card i {
+  color: #C1FF72;
+  margin-right: 10px;
+  font-size: 1.2rem;
+}
+
+@media (max-width: 992px) {
+  .contact-info {
+    margin-top: 40px;
+  }
+}
+
+@media (max-width: 768px) {
+  .hero-title {
+    font-size: 2.5rem;
+  }
+  
+  .hero-section {
+    padding: 60px 0;
+  }
+}
