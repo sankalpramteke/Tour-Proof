@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import "./Listings.css";
 import { Container, Row, Col, Form } from "react-bootstrap";
 import ListingCard from "../components/listings/ListingCard";
 import SearchFilters from "../components/listings/SearchFilters";
@@ -38,10 +39,8 @@ const ListingsPage = () => {
   };
 
   return (
-    <Container className="my-5">
-      <h1 className="mb-4">Discover Verified Places</h1>
-      
-      <Row className="mb-4">
+    <div className="listing-page-container">
+      <Row>
         <Col>
           <SearchFilters filters={filters} onFilterChange={handleFilterChange} />
         </Col>
@@ -65,7 +64,7 @@ const ListingsPage = () => {
           ))}
         </Row>
       )}
-    </Container>
+    </div>
   );
 };
 

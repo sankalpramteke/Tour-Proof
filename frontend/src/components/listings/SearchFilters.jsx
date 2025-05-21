@@ -32,7 +32,7 @@ const SearchFilters = ({ filters, onFilterChange }) => {
   };
 
   return (
-    <Card className="shadow-sm mb-4">
+    <div className="filter-section mb-4">
       <Card.Body>
         <div 
           className="d-flex justify-content-between align-items-center mb-3 cursor-pointer"
@@ -48,13 +48,19 @@ const SearchFilters = ({ filters, onFilterChange }) => {
               <Col md={4}>
                 <Form.Group>
                   <Form.Label>Location</Form.Label>
-                  <Form.Control
-                    type="text"
+                  <Form.Select
                     name="location"
-                    placeholder="City, country, etc."
                     value={localFilters.location}
                     onChange={handleInputChange}
-                  />
+                  >
+                    <option value="">All locations</option>
+                    <option value="Goa, India">Goa, India</option>
+                    <option value="Himachal Pradesh, India">Himachal Pradesh, India</option>
+                    <option value="Mumbai, India">Mumbai, India</option>
+                    <option value="Kerala, India">Kerala, India</option>
+                    <option value="Rajasthan, India">Rajasthan, India</option>
+                    <option value="Uttarakhand, India">Uttarakhand, India</option>
+                  </Form.Select>
                 </Form.Group>
               </Col>
               
@@ -109,10 +115,12 @@ const SearchFilters = ({ filters, onFilterChange }) => {
                     onChange={handleInputChange}
                   >
                     <option value="">All types</option>
-                    <option value="hotel">Hotel</option>
-                    <option value="restaurant">Restaurant</option>
-                    <option value="attraction">Attraction</option>
-                    <option value="tour">Tour</option>
+                    <option value="villa">Villa</option>
+                    <option value="lodge">Mountain Lodge</option>
+                    <option value="apartment">Apartment</option>
+                    <option value="resort">Resort</option>
+                    <option value="heritage">Heritage Hotel</option>
+                    <option value="cottage">Cottage</option>
                   </Form.Select>
                 </Form.Group>
               </Col>
@@ -133,7 +141,7 @@ const SearchFilters = ({ filters, onFilterChange }) => {
           </Form>
         </div>
       </Card.Body>
-    </Card>
+    </div>
   );
 };
 

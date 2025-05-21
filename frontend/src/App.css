@@ -4,7 +4,7 @@
   margin: 0;
   padding: 0;
   text-align: left;
-  background: var(--gradient-primary);
+  background: linear-gradient(135deg, #f5f7fa 0%, #e8ecf3 100%);
 }
 
 .app-container {

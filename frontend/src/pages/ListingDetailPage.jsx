@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import "./Listings.css";
 import { Container, Row, Col, Button, Carousel, Card, Badge } from "react-bootstrap";
 import { useParams, Link } from "react-router-dom";
 import ListingDetail from "../components/listings/ListingDetail";
@@ -40,25 +41,26 @@ const ListingDetailPage = () => {
 
   if (loading) {
     return (
-      <Container className="my-5 text-center">
+      <div className="listing-detail-container text-center">
         <LoadingSpinner />
-      </Container>
+      </div>
     );
   }
 
   if (error || !listing) {
     return (
-      <Container className="my-5 text-center">
-        <div className="alert alert-danger">{error || "Listing not found"}</div>
+      <div className="listing-detail-container text-center">
+        <h3>Error loading listing</h3>
+        <p>{error}</p>
         <Link to="/listings" className="btn btn-primary mt-3">
           Back to Listings
         </Link>
-      </Container>
+      </div>
     );
   }
 
   return (
-    <Container className="my-5">
+    <div className="listing-detail-container my-5">
       <Row>
         <Col lg={8}>
           <ListingDetail listing={listing} />
@@ -67,12 +69,12 @@ const ListingDetailPage = () => {
         <Col lg={4}>
           <Card className="shadow-sm sticky-top" style={{ top: "20px" }}>
             <Card.Body>
-              <h3 className="mb-3">${listing.price} / night</h3>
+              <h3 className="mb-3">₹{listing.priceRange.min} - ₹{listing.priceRange.max} / night</h3>
               <div className="d-flex align-items-center mb-3">
                 <i className="bi bi-star-fill text-warning me-1"></i>
-                <span>{listing.rating || "New"}</span>
+                <span>{listing.averageRating}</span>
                 <span className="mx-1">•</span>
-                <span>{reviews.length} reviews</span>
+                <span>{listing.reviewCount} reviews</span>
               </div>
               
               <Link to={`/booking/${id}`} className="w-100">
@@ -98,7 +100,7 @@ const ListingDetailPage = () => {
           <ReviewsList reviews={reviews} />
         </Col>
       </Row>
-    </Container>
+    </div>
   );
 };
 

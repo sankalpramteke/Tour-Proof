@@ -12,7 +12,7 @@ const PaymentForm = ({ totalPrice, onPaymentComplete, onBack }) => {
   });
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
-  const { walletAddress, walletBalance, connectWallet } = useWallet();
+  const { wallet, loading: walletLoading, error: walletError, connectWallet } = useWallet();
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -74,9 +74,15 @@ const PaymentForm = ({ totalPrice, onPaymentComplete, onBack }) => {
         setError(validationError);
         return;
       }
-    } else if (paymentMethod === 'crypto' && !walletAddress) {
-      setError('Please connect your wallet to complete the payment');
-      return;
+    } else if (paymentMethod === 'crypto') {
+      if (!wallet.connected) {
+        setError('Please connect your wallet to complete the payment');
+        return;
+      }
+      if (parseFloat(wallet.balance) < totalPrice) {
+        setError(`Insufficient balance. You have ${wallet.balance} ETH`);
+        return;
+      }
     }
 
     setIsLoading(true);
@@ -86,12 +92,39 @@ const PaymentForm = ({ totalPrice, onPaymentComplete, onBack }) => {
       await new Promise(resolve => setTimeout(resolve, 1500));
 
       // In a real implementation, you would call your payment processing API here
-      const paymentDetails = {
-        method: paymentMethod,
-        amount: totalPrice,
-        walletAddress: paymentMethod === 'crypto' ? walletAddress : null,
-        timestamp: new Date().toISOString()
-      };
+      let paymentDetails;
+      
+      if (paymentMethod === 'crypto') {
+        try {
+          // Create transaction
+          const transaction = {
+            from: wallet.address,
+            to: '0x1234567890123456789012345678901234567890', // Replace with your contract address
+            value: wallet.web3.utils.toWei(totalPrice.toString(), 'ether'),
+            gas: '21000'
+          };
+
+          // Send transaction
+          const receipt = await wallet.web3.eth.sendTransaction(transaction);
+
+          paymentDetails = {
+            method: 'crypto',
+            amount: totalPrice,
+            walletAddress: wallet.address,
+            transactionHash: receipt.transactionHash,
+            timestamp: new Date().toISOString()
+          };
+        } catch (err) {
+          throw new Error('Cryptocurrency payment failed: ' + err.message);
+        }
+      } else {
+        paymentDetails = {
+          method: 'credit-card',
+          amount: totalPrice,
+          cardLast4: cardDetails.cardNumber.slice(-4),
+          timestamp: new Date().toISOString()
+        };
+      }
 
       onPaymentComplete(paymentDetails);
     } catch (err) {
@@ -202,19 +235,26 @@ const PaymentForm = ({ totalPrice, onPaymentComplete, onBack }) => {
               <Card.Body>
                 <h5 className="mb-3">Pay with Cryptocurrency</h5>
 
-                {walletAddress ? (
+                {wallet.connected ? (
                   <div>
                     <p className="text-muted mb-2">Connected Wallet:</p>
                     <Card className="mb-3">
                       <Card.Body className="p-2">
-                        <code className="text-break">{walletAddress}</code>
+                        <code className="text-break">{wallet.address}</code>
                       </Card.Body>
                     </Card>
-                    {walletBalance !== null && (
-                      <p className="text-muted mb-0">
-                        Balance: <strong>{walletBalance} ETH</strong>
+                    <p className="text-muted mb-2">
+                      Network: <strong>{wallet.network}</strong>
+                    </p>
+                    <p className="text-muted mb-0">
+                      Balance: <strong>{wallet.balance} ETH</strong>
+                    </p>
+                    <div className="mt-3">
+                      <p className="text-muted mb-1">Amount to pay:</p>
+                      <p className="h5 mb-0">
+                        ₹{totalPrice} (≈ {(totalPrice * 0.0000031).toFixed(4)} ETH)
                       </p>
-                    )}
+                    </div>
                   </div>
                 ) : (
                   <div className="text-center py-3">
@@ -225,18 +265,15 @@ const PaymentForm = ({ totalPrice, onPaymentComplete, onBack }) => {
                       variant="primary"
                       onClick={connectWallet}
                       type="button"
+                      disabled={walletLoading}
                     >
-                      Connect Wallet
+                      {walletLoading ? 'Connecting...' : 'Connect Wallet'}
                     </Button>
-                  </div>
-                )}
-
-                {walletAddress && (
-                  <div className="mt-3">
-                    <p className="text-muted mb-1">Amount to pay:</p>
-                    <p className="h5 mb-0">
-                      {totalPrice} USD (≈ {(totalPrice * 0.00025).toFixed(4)} ETH)
-                    </p>
+                    {walletError && (
+                      <Alert variant="danger" className="mt-3">
+                        {walletError}
+                      </Alert>
+                    )}
                   </div>
                 )}
               </Card.Body>
@@ -255,9 +292,9 @@ const PaymentForm = ({ totalPrice, onPaymentComplete, onBack }) => {
             <Button
               variant="primary"
               type="submit"
-              disabled={isLoading || (paymentMethod === 'crypto' && !walletAddress)}
+              disabled={isLoading || (paymentMethod === 'crypto' && !wallet.connected)}
             >
-              {isLoading ? 'Processing...' : `Pay ${totalPrice} USD`}
+              {isLoading ? 'Processing...' : `Pay ₹${totalPrice}`}
             </Button>
           </div>
         </Form>
