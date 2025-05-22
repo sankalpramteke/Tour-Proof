@@ -14,7 +14,7 @@ export const authService = {
   login: async (email, password) => {
     // Simple validation
     if (email && password) {
-      return Promise.resolve({ data: { user: mockUser, token: mockToken } });
+      return { user: mockUser, token: mockToken };
     }
     throw new Error('Invalid credentials');
   },
@@ -22,13 +22,13 @@ export const authService = {
   signup: async (userData) => {
     if (userData.email && userData.password) {
       const newUser = { ...mockUser, ...userData };
-      return Promise.resolve({ data: { user: newUser, token: mockToken } });
+      return { user: newUser, token: mockToken };
     }
     throw new Error('Invalid user data');
   },
   
   getCurrentUser: async () => {
-    return Promise.resolve({ data: mockUser });
+    return mockUser;
   },
   
   updateProfile: async (userData) => {

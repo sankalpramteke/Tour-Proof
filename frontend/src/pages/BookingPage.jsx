@@ -50,21 +50,16 @@ const BookingPage = () => {
   // Calculate number of nights and total price
   useEffect(() => {
     if (listing && bookingDetails.startDate && bookingDetails.endDate) {
-      const startDate = new Date(bookingDetails.startDate);
-      const endDate = new Date(bookingDetails.endDate);
-      
-      // Calculate number of nights
-      const timeDiff = endDate.getTime() - startDate.getTime();
-      const nights = Math.ceil(timeDiff / (1000 * 3600 * 24));
-      
-      // Calculate total price
-      const basePrice = listing.price * nights;
-      const serviceFee = basePrice * 0.10; // 10% service fee
-      const totalPrice = basePrice + serviceFee;
-      
-      setTotalPrice(totalPrice);
+      const nights = Math.ceil(
+        (bookingDetails.endDate - bookingDetails.startDate) / (1000 * 60 * 60 * 24)
+      );
+      // Use the minimum price from the range for now
+      const pricePerNight = listing.priceRange.min;
+      const basePrice = pricePerNight * nights;
+      const serviceFee = Math.round(basePrice * 0.1); // 10% service fee
+      setTotalPrice(basePrice + serviceFee);
     }
-  }, [listing, bookingDetails]);
+  }, [listing, bookingDetails.startDate, bookingDetails.endDate]);
   
   const handleBookingDetailsChange = (newDetails) => {
     setBookingDetails({
@@ -170,36 +165,33 @@ const BookingPage = () => {
               <h6 className="mb-3">Booking Summary</h6>
               
               {bookingDetails.startDate && bookingDetails.endDate ? (
-                <div className="booking-details">
+                <div className="booking-summary">
+                  <h4>Booking Summary</h4>
                   <div className="d-flex justify-content-between mb-2">
                     <span>Dates</span>
                     <span>
-                      {new Date(bookingDetails.startDate).toLocaleDateString()} - {new Date(bookingDetails.endDate).toLocaleDateString()}
+                      {bookingDetails.startDate?.toLocaleDateString()} -{' '}
+                      {bookingDetails.endDate?.toLocaleDateString()}
                     </span>
                   </div>
-                  
                   <div className="d-flex justify-content-between mb-2">
                     <span>Guests</span>
                     <span>{bookingDetails.guests}</span>
                   </div>
-                  
-                  <hr />
-                  
                   <div className="d-flex justify-content-between mb-2">
-                    <span>${listing.price} × {Math.ceil((new Date(bookingDetails.endDate) - new Date(bookingDetails.startDate)) / (1000 * 3600 * 24))} nights</span>
-                    <span>${listing.price * Math.ceil((new Date(bookingDetails.endDate) - new Date(bookingDetails.startDate)) / (1000 * 3600 * 24))}</span>
+                    <span>₹{listing?.priceRange.min || 0} × {Math.ceil((bookingDetails.endDate - bookingDetails.startDate) / (1000 * 60 * 60 * 24))} nights</span>
+                    <span>₹{totalPrice ? (totalPrice * 0.9).toFixed(0) : 0}</span>
                   </div>
-                  
-                  <div className="d-flex justify-content-between mb-2">
+                  <div className="d-flex justify-content-between mb-3">
                     <span>Service fee</span>
-                    <span>${(listing.price * Math.ceil((new Date(bookingDetails.endDate) - new Date(bookingDetails.startDate)) / (1000 * 3600 * 24)) * 0.10).toFixed(2)}</span>
+                    <span>₹{totalPrice ? (totalPrice * 0.1).toFixed(0) : 0}</span>
                   </div>
                   
                   <hr />
                   
                   <div className="d-flex justify-content-between fw-bold">
                     <span>Total</span>
-                    <span>${totalPrice.toFixed(2)}</span>
+                    <span>₹{totalPrice.toFixed(0)}</span>
                   </div>
                 </div>
               ) : (
